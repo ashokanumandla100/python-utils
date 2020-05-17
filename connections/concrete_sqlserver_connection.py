@@ -22,6 +22,20 @@ class SqlServerConnection(DBConnection):
     def execute(self, query):
         self._cur.execute(query)
 
+    def executemany(self, prep_stmt, chunk):
+        self._cur.executemany(prep_stmt, chunk)
+
+    def get_marker(self, length):
+        return ", ".join('?'*length)
+
+    def executeproc(self, proc_name, **args):
+        if len(args) > 0:
+            proc_name = f"{{CALL {proc_name} ({', '.join('?' * len(args))})}}"
+            self._cur.execute(proc_name, args)
+        else:
+            proc_name = f"{{CALL {proc_name}}}"
+            self._cur.execute(proc_name)
+
     def fetchmany(self, n):
         return self._cur.fetchmany(n)
 

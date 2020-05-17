@@ -12,6 +12,18 @@ class DBConnection(ABC):
         pass
 
     @abstractmethod
+    def executemany(self, prep_stmt, chunk):
+        pass
+
+    @abstractmethod
+    def get_marker(self, length):
+        pass
+
+    @abstractmethod
+    def executeproc(self, proc_name, **args):
+        pass
+
+    @abstractmethod
     def fetchmany(self, n):
         pass
 
