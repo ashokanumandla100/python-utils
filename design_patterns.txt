@@ -1,0 +1,72 @@
+# Facade Pattern: Hide subsystem complexity and provide smooth
+# client interface
+# Ex: Car
+
+class SubSystemA:
+    def ignition(self):
+        print("Ignition...")
+
+class SubSystemB:
+    def lighting(self):
+        print("Lighting...")
+
+class Facade:
+    def __init__(self):
+        self._subSystemA = SubSystemA()
+        self._subSystemB = SubSystemB()
+
+    def exec_method(self):
+        self._subSystemA.ignition()
+        self._subSystemB.lighting()
+
+def main():
+    facade = Facade()
+    facade.exec_method()
+
+if __name__ == '__main__':
+    main()
+
+
+
+# Command Pattern: Controlling the sequence of operations
+
+class Command:
+    @abstractmethod
+    def execute(self):
+        pass
+
+class Copy(Command):
+    def execute(self):
+        print('Copying...')
+
+class Paste(Command):
+    def execute(self):
+        print('Pasting...')
+
+class Print(Command):
+    def execute(self):
+        print('Printing...')
+
+class Macro:
+    def __init__(self):
+        self._seq_commands = []
+
+    def add(self, command):
+        self._seq_commands.append(command)
+
+    def run(self):
+        for _ in self._seq_commands:
+            _.execute()
+
+
+def main():
+    macro = Macro()
+
+    macro.add(Copy())
+    macro.add(Paste())
+    macro.add(Print())
+
+    macro.run()
+
+if __name__ == '__main__':
+    main()
