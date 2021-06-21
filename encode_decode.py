@@ -2,7 +2,7 @@ import sys
 import os
 
 # Note: We should remove the quote escape character while setting the User level System Environment Variable
-# ALL_CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[]^_`{|}~'
+# ALL_CHARS = '0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[]^_`{|}~'
 # ENCODED_CHARS can be get using ''.join(random.sample(ALL_CHARS, len(ALL_CHARS)))
 
 ALL_CHARS = os.environ['ALL_CHARS']
