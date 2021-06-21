@@ -1,5 +1,6 @@
 import sys
 import os
+import pandas as pd
 
 # Note: We should remove the quote escape character while setting the User level System Environment Variable
 # ALL_CHARS = '0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[]^_`{|}~'
@@ -11,28 +12,48 @@ ENCODING_MAP = dict(zip(ALL_CHARS, ENCODED_CHARS))
 DECODING_MAP = dict(zip(ENCODED_CHARS, ALL_CHARS))
 
 def encode(original_text=''):
-    encoded_text = ''
-    encoded_chars = [ENCODING_MAP.get(char) for char in original_text]
-    encoded_text = ''.join(encoded_chars)
-    
-    return encoded_text
+    if (original_text):
+        encoded_text = ''
+        encoded_chars = [ENCODING_MAP.get(char) for char in original_text]
+        encoded_text = ''.join(encoded_chars)
+        return encoded_text
+    else:
+        return None
 
 
 def decode(encoded_text=''):
-    original_text = ''
-    original_chars = [DECODING_MAP.get(char) for char in encoded_text]
-    original_text = ''.join(original_chars)
+    if (encoded_text):
+        original_text = ''
+        original_chars = [DECODING_MAP.get(char) for char in encoded_text]
+        original_text = ''.join(original_chars)
+        return original_text
+    else:
+        return None
 
-    return original_text
+def encode_csv(original_file_path):
+    df = pd.read_csv(original_file_path, header=None)
+    df = df.where(pd.notnull(df), None)
+    df = df.applymap(encode)
+    df.to_csv('encoded.csv', index=False, header=False)
+    print('encoded.csv file generated successfully')
 
-
+def decode_csv(encoded_file_path):
+    df = pd.read_csv(encoded_file_path, header=None)
+    df = df.where(pd.notnull(df), None)
+    df = df.applymap(decode)
+    df.to_csv('original.csv', index=False, header=False)
+    print('original.csv file generated successfully')
 
 if __name__ == '__main__':
     if len(sys.argv) > 2:
-        if (sys.argv[1][0]).lower() == 'e':
+        if sys.argv[1] == 'e':
             print(encode(sys.argv[2].strip()))
-        elif (sys.argv[1][0]).lower() == 'd':
+        elif sys.argv[1] == 'd':
             print(decode(sys.argv[2].strip()))
+        elif sys.argv[1] == 'ef':
+            encode_csv(sys.argv[2].strip())        
+        elif sys.argv[1] == 'df':
+            decode_csv(sys.argv[2].strip())                   
         else:
             print("Encode or decode option not passed correctly")
     
@@ -40,11 +61,16 @@ if __name__ == '__main__':
         print('Runtime arguments not passed correctly')
 
     else:
-        encode_or_decode = input("Encode or Decode? Enter 'e' for encode or 'd' for decode: ").strip()
-        input_value = input( "Enter your text: ").strip()
+        encode_or_decode = input("Encode or Decode? Enter 'e' for encode or 'd' for decode or \n"
+                                 "'ef' for enconde csv file or 'df' for decode csv file: ").strip()
+        input_value = input( "Enter your text/file_name: ").strip()
         if encode_or_decode == 'e':
             print(encode(input_value))
         elif encode_or_decode == 'd':
             print(decode(input_value))
+        elif encode_or_decode == 'ef':
+            encode_csv(input_value)
+        elif encode_or_decode == 'df':
+            decode_csv(input_value)
         else:
             print("Encode or decode option not passed correctly")
