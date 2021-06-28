@@ -45,14 +45,15 @@ def decode_csv(encoded_file_path):
     print('original.csv file generated successfully')
 
 if __name__ == '__main__':
+    run_again = True
     if len(sys.argv) > 2:
-        if sys.argv[1] == 'e':
+        if sys.argv[1].strip().lower() == 'e':
             print(encode(sys.argv[2].strip()))
-        elif sys.argv[1] == 'd':
+        elif sys.argv[1].strip().lower() == 'd':
             print(decode(sys.argv[2].strip()))
-        elif sys.argv[1] == 'ef':
+        elif sys.argv[1].strip().lower() == 'ef':
             encode_csv(sys.argv[2].strip())        
-        elif sys.argv[1] == 'df':
+        elif sys.argv[1].strip().lower() == 'df':
             decode_csv(sys.argv[2].strip())                   
         else:
             print("Encode or decode option not passed correctly")
@@ -61,16 +62,21 @@ if __name__ == '__main__':
         print('Runtime arguments not passed correctly')
 
     else:
-        encode_or_decode = input("Encode or Decode? Enter 'e' for encode or 'd' for decode or \n"
-                                 "'ef' for enconde csv file or 'df' for decode csv file: ").strip()
-        input_value = input( "Enter your text/file_name: ").strip()
-        if encode_or_decode == 'e':
-            print(encode(input_value))
-        elif encode_or_decode == 'd':
-            print(decode(input_value))
-        elif encode_or_decode == 'ef':
-            encode_csv(input_value)
-        elif encode_or_decode == 'df':
-            decode_csv(input_value)
-        else:
-            print("Encode or decode option not passed correctly")
+
+        while(run_again):
+            encode_or_decode = input("Encode or Decode? Enter 'e' for encode or 'd' for decode or \n"
+                                    "'ef' for enconde csv file or 'df' for decode csv file: ").strip()
+            input_value = input( "Enter your text/file_name: ").strip().lower()
+            if encode_or_decode == 'e':
+                print(encode(input_value))
+            elif encode_or_decode == 'd':
+                print(decode(input_value))
+            elif encode_or_decode == 'ef':
+                encode_csv(input_value)
+            elif encode_or_decode == 'df':
+                decode_csv(input_value)
+            else:
+                print("Encode or decode option not passed correctly")
+            
+            run_again_inp = input("Want to run again? Enter 'y' or 1 to continue or 'n' or 0 to exit: ").strip().lower()
+            run_again = True if(run_again_inp in ["y", "1"]) else False
