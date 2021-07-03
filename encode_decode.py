@@ -66,7 +66,7 @@ if __name__ == '__main__':
         while(run_again):
             encode_or_decode = input("Encode or Decode? Enter 'e' for encode or 'd' for decode or \n"
                                     "'ef' for enconde csv file or 'df' for decode csv file: ").strip()
-            input_value = input( "Enter your text/file_name: ").strip().lower()
+            input_value = input( "Enter your text/file_name: ").strip()
             if encode_or_decode == 'e':
                 print(encode(input_value))
             elif encode_or_decode == 'd':
